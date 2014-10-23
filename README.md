@@ -4,8 +4,8 @@ Senior Project
 Bluetooth HW Control Environment
 
 Team Members:
-Sean Penney
-Paul Atkinson
+Sean Penney,
+Paul Atkinson,
 Aaron Egger
 
 Project proposer:
