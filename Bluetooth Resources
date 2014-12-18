@@ -1,0 +1,11 @@
+This file will contain links to bluetooth low energy information and guides.
+
+Official Android API guide for bluetooth low energy:
+https://developer.android.com/guide/topics/connectivity/bluetooth-le.html
+
+Summary of master vs slave, client vs server, recieve vs transmit, etc:
+https://bluegiga.zendesk.com/entries/25053373--REFERENCE-BLE-master-slave-GATT-client-server-and-data-RX-TX-basics
+
+Arduino code used with bluetooth low energy shield:
+https://github.com/NordicSemiconductor/ble-sdk-arduino
+We will be using the "ble_uart_project_template" project which implements a custom profile/service to send and recieve text
