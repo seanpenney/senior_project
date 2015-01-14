@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <fragment
+        android:name="bluetoothcontroller.universalbluetoothcontroler.textFragment"
+        android:id="@+id/text_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/text_fragment" />
+
+    <fragment
+        android:name="bluetoothcontroller.universalbluetoothcontroler.bluetoothKeyboardFragment"
+        android:id="@+id/bluetooth_keyboard_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_bluetooth_keyboard" />
+
+</LinearLayout>
