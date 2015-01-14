@@ -1,4 +1,4 @@
-package bluetoothcontroller.universalbluetoothcontroler;
+package bluetoothcontroller.ubc;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 /**
  * Created by Aaron on 1/10/2015.
  */
-public class bluetoothKeyboardFragment extends Fragment {
+public class BluetoothKeyboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

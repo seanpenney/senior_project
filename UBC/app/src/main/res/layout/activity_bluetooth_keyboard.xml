@@ -5,7 +5,7 @@
     android:layout_height="fill_parent">
 
     <fragment
-    android:name="bluetoothcontroller.universalbluetoothcontroler.bluetoothKeyboardFragment"
+    android:name="bluetoothcontroller.ubc.BluetoothKeyboardFragment"
     android:id="@+id/text_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

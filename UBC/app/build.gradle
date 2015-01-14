@@ -5,8 +5,8 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "bluetoothcontroller.universalbluetoothcontroler"
-        minSdkVersion 14
+        applicationId "bluetoothcontroller.ubc"
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

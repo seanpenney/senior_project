@@ -1,4 +1,4 @@
-package bluetoothcontroller.universalbluetoothcontroler;
+package bluetoothcontroller.ubc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
