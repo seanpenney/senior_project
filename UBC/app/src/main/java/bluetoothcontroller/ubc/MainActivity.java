@@ -37,8 +37,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void bluetoothKeyboard(View view){
-        setContentView(R.layout.activity_bluetooth_keyboard);
-
+        Intent intent = new Intent(this, KeyboardActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -80,52 +80,6 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    }
-
-    public void switchBluetooth(View view) {
-
-        Switch ble_switch = (Switch) findViewById(R.id.bluetooth_switch);
-        boolean on = ble_switch.isChecked();
-
-        if (on) {
-            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (mBluetoothAdapter == null) {
-                //bluetooth adapter is not available on this device
-                Context context = getApplicationContext();
-                CharSequence text = "Bluetooth is not detected on this device";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            } else {
-                int REQUEST_ENABLE_BT = 1;
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
-        } else {
-            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (mBluetoothAdapter == null) {
-                //bluetooth adapter is not available on this device
-                Context context = getApplicationContext();
-                CharSequence text = "Bluetooth is not detected on this device";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            } else {
-                mBluetoothAdapter.disable();
-            }
-        }
-    }
-
-
-
-    public void toast_message(View view){
-        Context context = getApplicationContext();
-        EditText mEdit   = (EditText)findViewById(R.id.textView);
-        CharSequence text = mEdit.getText().toString();
-        int duration = Toast.LENGTH_LONG;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
     }
 
 
