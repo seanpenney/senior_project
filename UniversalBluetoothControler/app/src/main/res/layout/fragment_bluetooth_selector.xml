@@ -18,8 +18,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Classic"
-        android:id="@+id/bc"
+        android:text="Bluetooth Classic Gamepad"
+        android:id="@+id/bc_gamepad"
+        android:layout_gravity="center_horizontal" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth Classic Keyboard"
+        android:id="@+id/bc_keyboard"
         android:onClick="bluetoothKeyboard"
         android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
