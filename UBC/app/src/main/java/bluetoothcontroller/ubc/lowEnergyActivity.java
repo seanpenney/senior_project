@@ -1,7 +1,15 @@
 package bluetoothcontroller.ubc;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -45,5 +53,44 @@ public class LowEnergyActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(this);
+        mgr.registerReceiver(receiver, new IntentFilter("CONNECT"));
+    }
+
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action != null) {
+                if (action.equals("CONNECT")) {
+                    String name = intent.getExtras().getString("NAME");
+                    String address = intent.getExtras().getString("ADDRESS");
+                    Log.d("received action", "" + name + address);
+                    // Create new fragment and transaction
+                    Fragment newFragment = new BleDeviceControl();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("NAME", name);
+                    bundle.putString("ADDRESS", address);
+                    newFragment.setArguments(bundle);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack
+                    transaction.replace(R.id.text_fragment, newFragment);
+                    transaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    transaction.commit();
+                }
+            }
+        }
+    };
+
 
 }

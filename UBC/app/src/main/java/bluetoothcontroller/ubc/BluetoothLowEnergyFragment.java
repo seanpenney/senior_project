@@ -6,8 +6,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +102,13 @@ public class BluetoothLowEnergyFragment extends ListFragment implements AdapterV
         String name = device.getName();
         String address = device.getAddress();
 
-        Toast.makeText(getActivity(), "Called connectTo for " + name + " " + address, Toast.LENGTH_SHORT).show();
+        Log.d("lowenergyfragment", "Called connectTo for " + name + " " + address);
+
+        Intent intent = new Intent("CONNECT");
+        intent.putExtra("NAME", name);
+        intent.putExtra("ADDRESS", address);
+        LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(getActivity());
+        mgr.sendBroadcast(intent);
 
     }
 
