@@ -1,9 +1,12 @@
 package bluetoothcontroller.ubc;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * Created by sean on 1/19/2015.
@@ -13,6 +16,12 @@ public class LowEnergyActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_low_energy);
+        // Use this check to determine whether BLE is supported on the device.  Then you can
+        // selectively disable BLE-related features.
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(this, "BLE not supported", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     @Override
