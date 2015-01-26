@@ -62,6 +62,12 @@ public class LowEnergyActivity extends ActionBarActivity {
         mgr.registerReceiver(receiver, new IntentFilter("CONNECT"));
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(this);
+        mgr.unregisterReceiver(receiver);
+    }
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override

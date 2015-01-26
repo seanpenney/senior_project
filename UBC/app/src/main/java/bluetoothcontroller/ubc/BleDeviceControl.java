@@ -233,6 +233,27 @@ public class BleDeviceControl extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_CONNECTED));
+        getActivity().registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_DISCONNECTED));
+        getActivity().registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED));
+        getActivity().registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_DATA_AVAILABLE));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unbindService(mServiceConnection);
+    }
+
     private void updateConnectionState(final int resourceId) {
         getActivity().runOnUiThread(new Runnable() {
             @Override

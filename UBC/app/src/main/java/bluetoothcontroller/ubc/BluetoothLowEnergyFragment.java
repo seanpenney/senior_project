@@ -94,6 +94,24 @@ public class BluetoothLowEnergyFragment extends ListFragment implements AdapterV
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        scanLeDevice(false);
+        listItems.clear();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listItems);
+
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
+    }
+
     public void BleScan() {
         scanLeDevice(true);
     }
