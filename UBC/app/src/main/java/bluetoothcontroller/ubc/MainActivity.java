@@ -1,7 +1,5 @@
 package bluetoothcontroller.ubc;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.Fragment;
@@ -12,12 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
-
-import bluetoothcontroller.ubc.R;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -34,6 +27,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_bluetooth_selector);
 
+    }
+
+    public void bluetoothLowEnergy(View view){
+        Intent intent = new Intent(this, LowEnergyActivity.class);
+        startActivity(intent);
     }
 
     public void bluetoothKeyboard(View view){
