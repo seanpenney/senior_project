@@ -1,5 +1,6 @@
 package bluetoothcontroller.ubc;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +22,12 @@ import java.util.TimerTask;
 
 /**
  * Created by Aaron on 1/14/2015.
+ * Modified by Paul on 1/28/2015
  */
 public class GamepadActivity extends ActionBarActivity {
 
     Controller mController = null;
     TextView buttonTextView;
-    Timer timer;
-    TimerTask timerTask;
     boolean isRunning;
 
     @Override
@@ -100,13 +100,31 @@ public class GamepadActivity extends ActionBarActivity {
     }
 
     public void toast_message(View view){
-        myThread.start();
+
+        //myThread.start();
+        /*int period = 1000;
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, period, period);*/
+        update();
+
     }
+    /*Thread myThread = new Thread() {
+        public void run() {
+            update();
+        }
+    };*/
+
     Thread myThread = new Thread() {
         public void run() {
             update();
         }
     };
+
 
 
     @Override
@@ -129,15 +147,19 @@ public class GamepadActivity extends ActionBarActivity {
                 if(mController.getKeyCode(Controller.KEYCODE_BUTTON_A) == Controller.ACTION_DOWN) {
                     // button A is pressed
                     buttonTextView.setText("A being pressed");
+                    Log.v("Debug", "A");
                 } else if(mController.getKeyCode(Controller.KEYCODE_BUTTON_B) == Controller.ACTION_DOWN) {
                     // button B is pressed
                     buttonTextView.setText("B being pressed");
+                    Log.v("Debug", "B");
                 } else if(mController.getKeyCode(Controller.KEYCODE_BUTTON_X) == Controller.ACTION_DOWN) {
                     // button X is pressed
                     buttonTextView.setText("X being pressed");
+                    Log.v("Debug", "X");
                 } else if(mController.getKeyCode(Controller.KEYCODE_BUTTON_Y) == Controller.ACTION_DOWN) {
                     // button Y is pressed
                     buttonTextView.setText("Y being pressed");
+                    Log.v("Debug", "Y");
                 } else if(mController.getKeyCode(Controller.KEYCODE_BUTTON_SELECT) == Controller.ACTION_DOWN) {
                     // button Select is pressed
                     buttonTextView.setText("Select being pressed");
@@ -151,6 +173,7 @@ public class GamepadActivity extends ActionBarActivity {
                     // button Right Bumper is pressed
                     buttonTextView.setText("Right Bumper being pressed");
                 } else {
+                    Log.v("Debug", "NONE");
                     // No button is currently being pressed
                     buttonTextView.setText("No buttons are being pressed");
                 }
