@@ -29,13 +29,18 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void bluetoothLowEnergy(View view){
+    public void bluetoothLowEnergy(View view) {
         Intent intent = new Intent(this, LowEnergyActivity.class);
         startActivity(intent);
     }
 
-    public void bluetoothKeyboard(View view){
+    public void bluetoothKeyboard(View view) {
         Intent intent = new Intent(this, KeyboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void bluetoothGamepad(View view) {
+        Intent intent = new Intent(this, GamepadActivity.class);
         startActivity(intent);
     }
 
