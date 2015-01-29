@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Bluetooth Classic Gamepad"
         android:id="@+id/bc_gamepad"
+        android:onClick="bluetoothGamepad"
         android:layout_gravity="center_horizontal" />
     <Button
         android:layout_width="wrap_content"
