@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class GamepadActivity extends ActionBarActivity {
     Controller mController = null;
     TextView buttonTextView;
     boolean isRunning;
+    //Activity myActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class GamepadActivity extends ActionBarActivity {
 
         buttonTextView = (TextView) findViewById(R.id.textView);
         buttonTextView.setText("Press OK to start");
+        //myActivity = this;
     }
 
     @Override
@@ -101,7 +104,7 @@ public class GamepadActivity extends ActionBarActivity {
 
     public void toast_message(View view){
 
-        //myThread.start();
+        myThread.start();
         /*int period = 1000;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -110,7 +113,7 @@ public class GamepadActivity extends ActionBarActivity {
                 update();
             }
         }, period, period);*/
-        update();
+        //update();
 
     }
     /*Thread myThread = new Thread() {
@@ -119,12 +122,28 @@ public class GamepadActivity extends ActionBarActivity {
         }
     };*/
 
-    Thread myThread = new Thread() {
+    /*Thread myThread = new Thread() {
         public void run() {
             update();
         }
-    };
+    };*/
 
+    Thread myThread = new Thread() {
+        public void run() {
+            while (true) {
+                GamepadActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        update();
+                    }
+                });
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -141,7 +160,7 @@ public class GamepadActivity extends ActionBarActivity {
     }
 
     public void update() {
-        Log.v("Debug", "BOOOOP");
+        //Log.v("Debug", "BOOOOP");
         if(mController != null) {
             if(mController.getState(Controller.STATE_CONNECTION) == Controller.ACTION_CONNECTED) {
                 if(mController.getKeyCode(Controller.KEYCODE_BUTTON_A) == Controller.ACTION_DOWN) {
