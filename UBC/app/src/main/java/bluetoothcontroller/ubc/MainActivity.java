@@ -1,16 +1,26 @@
 package bluetoothcontroller.ubc;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,6 +36,34 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_bluetooth_selector);
+
+        View ble = findViewById(R.id.ble);
+        ble.setOnLongClickListener(longListen);
+        ble.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                bluetoothLowEnergy(v);;
+            }
+        });
+
+        View bc_gamepad = findViewById(R.id.bc_gamepad);
+        bc_gamepad.setOnLongClickListener(longListen);
+        bc_gamepad.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                bluetoothGamepad(v);
+            }
+        });
+
+        View bc_keyboard = findViewById(R.id.bc_keyboard);
+        bc_keyboard.setOnLongClickListener(longListen);
+        bc_keyboard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                bluetoothKeyboard(v);
+            }
+        });
+        findViewById(R.id.drop_view).setOnDragListener(DropListener);
 
     }
 
@@ -43,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, GamepadActivity.class);
         startActivity(intent);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,7 +124,75 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    View.OnDragListener DropListener = new View.OnDragListener(){
 
+            @Override
+            public boolean onDrag(View v, DragEvent event){
+                int dragEvent = event.getAction();
 
+                switch(dragEvent){
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        Log.i("Drag Event", "Entered");
+                        break;
+                    case DragEvent.ACTION_DRAG_EXITED:
+                        Log.i("Drag Event", "Exited");
+                        break;
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        Button target = (Button) new Button(getApplicationContext());
+                        final Button dragged = (Button) event.getLocalState();
+                        target.setText(dragged.getText());
+                        LinearLayout layout = (LinearLayout) findViewById(R.id.drop_view);
+                        layout.addView(target);
+                        target.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                dragged.callOnClick();
+                        }
+                      });
+                        break;
+                }
+                return true;
+            }
+    };
+
+    View.OnLongClickListener longListen = new View.OnLongClickListener(){
+
+        @Override
+        public boolean onLongClick(View v){
+            ClipData data = ClipData.newPlainText("", "");
+            DragShadow dragShadow = new DragShadow(v);
+
+            v.startDrag(data, dragShadow, v, 0);
+            return false;
+        }
+    };
+
+    private class DragShadow extends View.DragShadowBuilder {
+
+        ColorDrawable greyBox;
+
+        public DragShadow(View view) {
+            super(view);
+            greyBox = new ColorDrawable(Color.LTGRAY);
+        }
+
+        @Override
+        public void onDrawShadow(Canvas canvas) {
+            greyBox.draw(canvas);
+        }
+
+        @Override
+        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+            View v = getView();
+
+            int height = (int)v.getHeight();
+            int width = (int)v.getWidth();
+
+            greyBox.setBounds(0, 0, width, height);
+            shadowSize.set(width, height);
+            shadowTouchPoint.set((int)width/2,(int)height/2);
+        }
+    }
 }
+
 
