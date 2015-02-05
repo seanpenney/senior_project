@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         mDrawerList.setOnItemLongClickListener(this);
 
         findViewById(R.id.drop_view).setOnDragListener(DropListener);
+        findViewById(R.id.delete_drop_view).setOnDragListener(DropListener);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -139,31 +140,48 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 switch(dragEvent){
                     case DragEvent.ACTION_DRAG_ENTERED:
                         Log.i("Drag Event", "Entered");
+                        //v.setBackgroundColor(R.color.accent_material_dark);
+                        v.invalidate();
                         break;
                     case DragEvent.ACTION_DRAG_EXITED:
+                        //v.setBackgroundColor(R.color.bright_foreground_material_dark);
+                        v.invalidate();
                         Log.i("Drag Event", "Exited");
                         break;
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        Button target = (Button) new Button(getApplicationContext());
-                        final TextView dragged = (TextView) event.getLocalState();
-                        final String text = dragged.getText().toString();
-                        target.setText(dragged.getText());
-                        LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-                        LinearLayout layout = (LinearLayout) findViewById(R.id.drop_view);
-                        layout.addView(target, lp);
+                    case DragEvent.ACTION_DROP:
+                            View cView = (View) event.getLocalState();
+                            Button target = (Button) new Button(getApplicationContext());
+                            final TextView dragged = (TextView) event.getLocalState();
+                            final String text = dragged.getText().toString();
+                            target.setText(dragged.getText());
+                            LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat
+                                    .LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                            LinearLayout layout = (LinearLayout) findViewById(R.id.drop_view);
 
-                        target.setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v){
-                           if( text.equals(getString(R.string.bc_keyboard))) {
-                               bluetoothKeyboard(v);
-                           }else if(text.equals(getString(R.string.bc_gamePad))){
-                               bluetoothLowEnergy(v);
-                           }else if(text.equals(getString(R.string.ble))){
-                               bluetoothLowEnergy(v);
-                           }
-                        }
-                      });
+                            if (v.getId() == R.id.delete_drop_view) {
+                                layout.removeView(dragged);
+                            }
+                            else if(v.getId() == R.id.drop_view) {
+                                layout.addView(target, lp);
+
+                                target.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (text.equals(getString(R.string.bc_keyboard))) {
+                                            bluetoothKeyboard(v);
+                                        } else if (text.equals(getString(R.string.bc_gamePad))) {
+                                            bluetoothLowEnergy(v);
+                                        } else if (text.equals(getString(R.string.ble))) {
+                                            bluetoothLowEnergy(v);
+                                        }
+                                    }
+                                });
+
+
+                                target.setOnLongClickListener(longListen);
+
+                            }
+                        else Log.i("Who done Messed up", "You did!" );
                         break;
                 }
                 return true;
@@ -176,7 +194,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         public boolean onLongClick(View v){
             ClipData data = ClipData.newPlainText("", "");
             DragShadow dragShadow = new DragShadow(v);
-
             v.startDrag(data, dragShadow, v, 0);
             return false;
         }
