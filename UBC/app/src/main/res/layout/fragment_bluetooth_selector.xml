@@ -31,4 +31,12 @@
         android:onClick="bluetoothKeyboard"
         android:layout_gravity="center_horizontal" />
 
+    <LinearLayout
+        android:id="@+id/drop_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background_material_dark"
+        android:layout_gravity="center_horizontal"></LinearLayout>
+
 </LinearLayout>

@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bda.controller.Controller;
 
 import java.util.Timer;
