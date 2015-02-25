@@ -1,5 +1,6 @@
 package bluetoothcontroller.ubc;
 
+import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,7 +60,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         mDrawerList.setOnItemLongClickListener(this);
 
-        findViewById(R.id.drop_view).setOnDragListener(DropListener);
+        findViewById(R.id.drop_view1).setOnDragListener(DropListener);
+        findViewById(R.id.drop_view2).setOnDragListener(DropListener);
+        findViewById(R.id.drop_view3).setOnDragListener(DropListener);
+        findViewById(R.id.drop_view4).setOnDragListener(DropListener);
         findViewById(R.id.delete_drop_view).setOnDragListener(DropListener);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -156,31 +162,29 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                             target.setText(dragged.getText());
                             LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat
                                     .LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-                            LinearLayout layout = (LinearLayout) findViewById(R.id.drop_view);
+                            LinearLayout layout;
 
-                            if (v.getId() == R.id.delete_drop_view) {
+                        if (v.getId() == R.id.delete_drop_view) {
+                                layout = (LinearLayout) cView.getParent();
                                 layout.removeView(dragged);
                             }
-                            else if(v.getId() == R.id.drop_view) {
-                                layout.addView(target, lp);
-
-                                target.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (text.equals(getString(R.string.bc_keyboard))) {
-                                            bluetoothKeyboard(v);
-                                        } else if (text.equals(getString(R.string.bc_gamePad))) {
-                                            bluetoothLowEnergy(v);
-                                        } else if (text.equals(getString(R.string.ble))) {
-                                            bluetoothLowEnergy(v);
-                                        }
+                        else if(v.getId() == R.id.drop_view1 || v.getId() == R.id.drop_view2 || v.getId() == R.id.drop_view3 ||v.getId() == R.id.drop_view4) {
+                            layout = (LinearLayout) findViewById(v.getId());
+                            layout.addView(target, lp);
+                            target.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (text.equals(getString(R.string.bc_keyboard))) {
+                                        bluetoothKeyboard(v);
+                                    } else if (text.equals(getString(R.string.bc_gamePad))) {
+                                        bluetoothLowEnergy(v);
+                                    } else if (text.equals(getString(R.string.ble))) {
+                                        bluetoothLowEnergy(v);
                                     }
-                                });
-
-
-                                target.setOnLongClickListener(longListen);
-
-                            }
+                                }
+                            });
+                            target.setOnLongClickListener(longListen);
+                        }
                         else Log.i("Who done Messed up", "You did!" );
                         break;
                 }
