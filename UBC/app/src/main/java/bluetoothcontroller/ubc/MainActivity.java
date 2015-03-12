@@ -78,8 +78,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void bluetoothGamepad(View view) {
-        //Intent intent = new Intent(this, GamepadActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, GamepadActivity.class);
+        startActivity(intent);
     }
 
 
