@@ -317,6 +317,10 @@ public class BluetoothLeService extends Service{
         Log.d(TAG, "Wrote TX characteristic, status = " + status);
     }
 
+    public BluetoothGattCharacteristic returnTxCharacteristic() {
+        return mBluetoothGatt.getService(UUID_UART_SERVICE).getCharacteristic(UUID_TX_CHARACTERISTIC);
+    }
+
     /**
      * Retrieves a list of supported GATT services on the connected device. This should be
      * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.

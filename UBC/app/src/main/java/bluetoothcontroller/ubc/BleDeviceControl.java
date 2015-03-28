@@ -110,8 +110,11 @@ public class BleDeviceControl extends Fragment {
                 updateConnectionState(R.string.disconnected);
                 clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                setupNotification();
+
                 // Show all the supported services and characteristics on the user interface.
-                displayGattServices(mBluetoothLeService.getSupportedGattServices());
+                //displayGattServices(mBluetoothLeService.getSupportedGattServices());
+
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
             }
@@ -166,6 +169,13 @@ public class BleDeviceControl extends Fragment {
                     return false;
                 }
             };
+
+    public void setupNotification() {
+        BluetoothGattCharacteristic characteristic = mBluetoothLeService.returnTxCharacteristic();
+        mNotifyCharacteristic = characteristic;
+        mBluetoothLeService.setCharacteristicNotification(characteristic, true);
+
+    }
 
     private void clearUI() {
         mGattServicesList.setAdapter((SimpleExpandableListAdapter) null);
