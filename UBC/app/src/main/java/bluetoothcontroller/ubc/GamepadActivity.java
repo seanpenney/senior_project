@@ -16,7 +16,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bda.controller.Controller;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +37,6 @@ public class GamepadActivity extends ActionBarActivity {
 
         mController = Controller.getInstance(this);
         mController.init();
-
         buttonTextView = (TextView) findViewById(R.id.textView);
         buttonTextView.setText("Press OK to start");
         //myActivity = this;

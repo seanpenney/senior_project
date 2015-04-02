@@ -14,6 +14,16 @@
     <string name="connected">Connected</string>
     <string name="unknown_service">Unknown service</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="ble">Bluetooth Low Energy</string>
+    <string name="bc_keyboard">Bluetooth Classic Keyboard</string>
+    <string name="bc_gamePad">Bluetooth Classic Gamepad</string>
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>
 
+    <string-array name="plugins">
+        <item > Bluetooth Classic Gamepad</item>
+        <item > Bluetooth Low Energy</item>
+        <item > Bluetooth Classic Keyboard</item>
+    </string-array>
 
 </resources>
