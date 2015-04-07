@@ -16,12 +16,15 @@ import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,11 +46,15 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private DrawerLayout drawerLayout;
     private ListView listView;
     private String[] plugins;
+    private boolean rowHasTwo = false;
+    private int tableRowCount = 1;
     public ActionBarDrawerToggle mDrawerToggle;
+    View dropView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.fragment_bluetooth_selector);
 
 
@@ -56,14 +63,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         mDrawerList = (ListView) findViewById(R.id.drawerList);
         plugins = getResources().getStringArray(R.array.plugins);
         mDrawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, plugins));
-        // Set the list's click listener
-
         mDrawerList.setOnItemLongClickListener(this);
-
-        findViewById(R.id.drop_view1).setOnDragListener(DropListener);
-        findViewById(R.id.drop_view2).setOnDragListener(DropListener);
-        findViewById(R.id.drop_view3).setOnDragListener(DropListener);
-        findViewById(R.id.drop_view4).setOnDragListener(DropListener);
+        dropView =  findViewById(R.id.drop_view);
+        dropView.setOnDragListener(DropListener);
         findViewById(R.id.delete_drop_view).setOnDragListener(DropListener);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,7 +96,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         Intent intent = new Intent(this, GamepadActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,6 +138,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+    int randid = 21293;
     View.OnDragListener DropListener = new View.OnDragListener(){
 
             @Override
@@ -156,11 +158,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                         break;
                     case DragEvent.ACTION_DROP:
                             View cView = (View) event.getLocalState();
-                            Button target = (Button) new Button(getApplicationContext());
                             final TextView dragged = (TextView) event.getLocalState();
-                            final String text = dragged.getText().toString();
-                            target.setText(dragged.getText());
-                            LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat
+
+                        LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat
                                     .LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
                             LinearLayout layout;
 
@@ -168,9 +168,24 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                 layout = (LinearLayout) cView.getParent();
                                 layout.removeView(dragged);
                             }
-                        else if(v.getId() == R.id.drop_view1 || v.getId() == R.id.drop_view2 || v.getId() == R.id.drop_view3 ||v.getId() == R.id.drop_view4) {
+                        else if(v.getId() == R.id.drop_view) {
+                            Log.i("Drop Listener", "Drop view on drop_view");
+                            TableLayout table = (TableLayout) findViewById(R.id.drop_view);
+                            TableRow newRow;
+                            if(!rowHasTwo){
+                                newRow = new TableRow(table.getContext());
+                                table.addView(newRow);
+                                rowHasTwo = true;
+                            }
+                            else{
+                                newRow = (TableRow) table.getChildAt(tableRowCount);
+                                ++tableRowCount;
+                                rowHasTwo = false;
+                           }
+                            final String text = dragged.getText().toString();
+                            Button target = (Button) new Button(getApplicationContext());
+                            target.setText(dragged.getText());
                             layout = (LinearLayout) findViewById(v.getId());
-                            layout.addView(target, lp);
                             target.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -184,8 +199,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                 }
                             });
                             target.setOnLongClickListener(longListen);
+                            newRow.addView(target);
                         }
-                        else Log.i("Who done Messed up", "You did!" );
+                        else Log.i("Drop Listener", "Drop view not registered" );
                         break;
                 }
                 return true;
@@ -202,6 +218,38 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             return false;
         }
     };
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+        Bundle viewHierarchy = savedState
+                .getBundle("android:viewHierarchyState");
+        if (viewHierarchy != null) {
+
+            SparseArray views = viewHierarchy.getSparseParcelableArray("android:views");
+
+            if (views != null) {
+                for (int i = 0; i < views.size(); i++) {
+                    Log.v("savedState", "key -->" + views.get(i));
+
+                    Log.v("savedState", "value --> " + views.valueAt(i));
+
+                }
+            }
+
+        } else {
+
+            Log.v("savedState", "no view data");
+        }
+    }
 
     private class DragShadow extends View.DragShadowBuilder {
 
