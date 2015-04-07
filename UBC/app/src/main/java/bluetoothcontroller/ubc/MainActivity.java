@@ -37,7 +37,7 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener {
 
-    private String[] mPlanetTitles;
+    private String[] mPluginTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private View selected_item = null;
@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         setContentView(R.layout.fragment_bluetooth_selector);
 
 
-        mPlanetTitles = getResources().getStringArray(R.array.plugins);
+        mPluginTitles = getResources().getStringArray(R.array.plugins);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerList = (ListView) findViewById(R.id.drawerList);
         plugins = getResources().getStringArray(R.array.plugins);
@@ -144,8 +144,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             @Override
             public boolean onDrag(View v, DragEvent event){
                 int dragEvent = event.getAction();
-
+                View delete = findViewById(R.id.delete_drop_view);
                 switch(dragEvent){
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        delete.setVisibility(View.VISIBLE);
+                        break;
                     case DragEvent.ACTION_DRAG_ENTERED:
                         Log.i("Drag Event", "Entered");
                         //v.setBackgroundColor(R.color.accent_material_dark);
@@ -167,6 +170,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                         if (v.getId() == R.id.delete_drop_view) {
                                 layout = (LinearLayout) cView.getParent();
                                 layout.removeView(dragged);
+                                delete.setVisibility(View.INVISIBLE);
+
                             }
                         else if(v.getId() == R.id.drop_view) {
                             Log.i("Drop Listener", "Drop view on drop_view");
@@ -200,8 +205,13 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                             });
                             target.setOnLongClickListener(longListen);
                             newRow.addView(target);
+                            delete.setVisibility(View.INVISIBLE);
                         }
-                        else Log.i("Drop Listener", "Drop view not registered" );
+                        else{
+                            Log.i("Drop Listener", "Drop view not registered" );
+                            delete.setVisibility(View.INVISIBLE);
+                        }
+
                         break;
                 }
                 return true;

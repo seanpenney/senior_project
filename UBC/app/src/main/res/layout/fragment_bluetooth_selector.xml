@@ -10,16 +10,16 @@
 <LinearLayout
     android:id="@+id/outer_view"
     android:layout_width="fill_parent"
+    android:background="#339999"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:saveEnabled="true"
     android:weightSum="1">
 
-
     <TableLayout
         android:id="@+id/drop_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="fill_parent"
         android:baselineAligned="true"
         android:background="#339999"
         android:columnWidth="90dp"
@@ -28,33 +28,36 @@
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:saveEnabled="true"
-        android:layout_weight="0.99">
+        android:layout_weight="0.20">
 
         <TableRow
             android:id="@+id/drop_row1">
         </TableRow>
 
     </TableLayout>
+
     <LinearLayout
         android:id="@+id/delete_drop_view"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="120dp"
-        android:background="#FF3366"
+        android:layout_height="fill_parent"
+        android:background="#99FF3366"
         android:layout_gravity="right"
-        android:layout_weight="0.10">
+        android:visibility="invisible"
+        android:layout_weight="0.80">
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="215dp"
+            android:layout_height="match_parent"
             android:text="DELETE"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:id="@+id/delete_text" />
     </LinearLayout>
 </LinearLayout>
 
     <ListView
             android:id="@+id/drawerList"
-            android:background="#FFCC33"
+            android:background="#C0C0C0"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="right">
