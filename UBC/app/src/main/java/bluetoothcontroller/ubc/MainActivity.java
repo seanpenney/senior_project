@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -189,6 +190,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                            }
                             final String text = dragged.getText().toString();
                             Button target = (Button) new Button(getApplicationContext());
+                            target.getBackground().setColorFilter(0x99000000, PorterDuff.Mode.MULTIPLY);
                             target.setText(dragged.getText());
                             layout = (LinearLayout) findViewById(v.getId());
                             target.setOnClickListener(new View.OnClickListener() {
