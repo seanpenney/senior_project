@@ -35,7 +35,6 @@ public class BluetoothLowEnergyFragment extends ListFragment implements AdapterV
     ArrayList<String> listItems = new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
-    private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
 
