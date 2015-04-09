@@ -14,6 +14,7 @@ public class BluetoothKeyboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        setRetainInstance(true);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bluetooth_keyboard,
                 container, false);
