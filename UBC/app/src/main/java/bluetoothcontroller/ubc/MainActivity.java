@@ -148,7 +148,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 View delete = findViewById(R.id.delete_drop_view);
                 switch(dragEvent){
                     case DragEvent.ACTION_DRAG_STARTED:
-                        delete.setVisibility(View.VISIBLE);
+                        //make deleteview visible
+                        delete.setAlpha(1f);
                         break;
                     case DragEvent.ACTION_DRAG_ENTERED:
                         Log.i("Drag Event", "Entered");
@@ -171,7 +172,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                         if (v.getId() == R.id.delete_drop_view) {
                                 layout = (LinearLayout) cView.getParent();
                                 layout.removeView(dragged);
-                                delete.setVisibility(View.INVISIBLE);
+                                //make deleteview invisible
+                                delete.setAlpha(0);
 
                             }
                         else if(v.getId() == R.id.drop_view) {
@@ -207,11 +209,13 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                             });
                             target.setOnLongClickListener(longListen);
                             newRow.addView(target);
-                            delete.setVisibility(View.INVISIBLE);
+                            //make delete view invisible
+                            delete.setAlpha(0);
                         }
                         else{
                             Log.i("Drop Listener", "Drop view not registered" );
-                            delete.setVisibility(View.INVISIBLE);
+                            //make delete view invisible
+                            delete.setAlpha(0);
                         }
 
                         break;
