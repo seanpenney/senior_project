@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Display;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -192,6 +193,13 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                            }
                             final String text = dragged.getText().toString();
                             Button target = (Button) new Button(getApplicationContext());
+                            Display display = getWindowManager().getDefaultDisplay();
+                            Point size = new Point();
+                            display.getSize(size);
+                            int width = size.x;
+                            int height = size.y;
+                            target.setWidth(width/2);
+                            target.setHeight(height/10);
                             target.getBackground().setColorFilter(0x99000000, PorterDuff.Mode.MULTIPLY);
                             target.setText(dragged.getText());
                             layout = (LinearLayout) findViewById(v.getId());
