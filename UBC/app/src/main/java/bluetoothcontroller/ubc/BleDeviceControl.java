@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -114,6 +115,8 @@ public class BleDeviceControl extends Fragment {
 
         mDeviceName = name;
         mDeviceAddress = address;
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -129,12 +132,22 @@ public class BleDeviceControl extends Fragment {
         mConnectionState = (TextView) view.findViewById(R.id.connection_state);
         mDataField = (TextView) view.findViewById(R.id.data_value);
 
+        /*
         Button button = (Button) view.findViewById(R.id.submit_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Sent text to Arduino", Toast.LENGTH_SHORT).show();
                 sendToArduino();
+            }
+        });
+        */
+
+        Button get_pin_val_button = (Button) view.findViewById(R.id.get_pin_val_button);
+        get_pin_val_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPinVal();
             }
         });
 
@@ -205,9 +218,23 @@ public class BleDeviceControl extends Fragment {
         }
     }
 
+    /*
     private void sendToArduino() {
         EditText input = (EditText) getActivity().findViewById(R.id.submit_text);
         String message = input.getText().toString();
+        byte[] value = new byte[0];
+        try {
+            value = message.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeRXCharacteristic(value);
+    }
+    */
+
+    private void getPinVal() {
+        EditText input = (EditText) getActivity().findViewById(R.id.get_pin_val);
+        String message = "<get_pinval>" + input.getText().toString();
         byte[] value = new byte[0];
         try {
             value = message.getBytes("UTF-8");
