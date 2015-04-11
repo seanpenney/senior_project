@@ -209,7 +209,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                     if (text.equals(getString(R.string.bc_keyboard))) {
                                         bluetoothKeyboard(v);
                                     } else if (text.equals(getString(R.string.bc_gamePad))) {
-                                        bluetoothLowEnergy(v);
+                                        bluetoothGamepad(v);
                                     } else if (text.equals(getString(R.string.ble))) {
                                         bluetoothLowEnergy(v);
                                     }
