@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
-                    android:text="Read from pin #:"
+                    android:text="Read from pin:"
                     android:textSize="25sp" />
 
                 <EditText
@@ -157,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/get_pin_val_text"
                     android:hint="Enter pin # to read"
+                    android:inputType="number"
                     android:textSize="18sp" />
             </RelativeLayout>
 
@@ -179,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
-                    android:text="Write to pin #:"
+                    android:text="Write to pin:"
                     android:textSize="25sp" />
 
                 <EditText
@@ -188,6 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/set_pin_text"
                     android:hint="Enter pin # to write to"
+                    android:inputType="number"
                     android:textSize="18sp" />
             </RelativeLayout>
 
@@ -209,6 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/set_val_text"
                     android:hint="Enter value to write"
+                    android:inputType="number"
                     android:textSize="18sp" />
             </RelativeLayout>
 
@@ -240,6 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/pin_high_text"
                     android:hint="Enter pin #"
+                    android:inputType="number"
                     android:textSize="18sp" />
 
                 <Button
@@ -248,6 +252,35 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/pin_high"
                     android:text="Write high to digital pin" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/pin_low_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Write low to pin:"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/pin_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/pin_low_text"
+                    android:hint="Enter pin #"
+                    android:inputType="number"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/pin_low_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/pin_low"
+                    android:text="Write low to digital pin" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
