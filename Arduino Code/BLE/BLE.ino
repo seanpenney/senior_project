@@ -433,20 +433,22 @@ void aci_loop()
             uart_buffer_len = aci_evt->len - 2;
             Serial.println(F(""));
             
-            uint8_t check_for_pin_val[9] = "<pinval>";
-            boolean pin_val = true;
-            for (int i = 0; i < 8; i++) {
-              if (uart_buffer[i] != check_for_pin_val[i]) {
-                pin_val = false;
+            uint8_t check_for_get_pin_val[13] = "<get_pinval>";
+            boolean get_pin_val = true;
+            for (int i = 0; i < 12; i++) {
+              if (uart_buffer[i] != check_for_get_pin_val[i]) {
+                get_pin_val = false;
                 break;
               }
             }
-            if (pin_val) {
-              int pin = (int)uart_buffer[8] - 48;
-              if ((int)uart_buffer[9] >= 48 && (int)uart_buffer[9] <= 57) {
-                pin = pin * 10 + ((int)uart_buffer[9] - 48);
+            if (get_pin_val) {
+              int pin = (int)uart_buffer[12] - 48;
+              if ((int)uart_buffer[13] >= 48 && (int)uart_buffer[13] <= 57) {
+                pin = pin * 10 + ((int)uart_buffer[13] - 48);
               }
-              uart_buffer[9] = 0;
+              for (int i = 0; i < 14; i++) {
+                uart_buffer[i] = 0;
+              }
               int val = analogRead(pin);
               if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
                 char buffer[4];
@@ -457,40 +459,72 @@ void aci_loop()
               Serial.println(pin);
             }
             
-            uint8_t check_for_pin_on[9] = "<pin_on>";
-            boolean pin_on = true;
-            for (int i = 0; i < 8; i++) {
-              if (uart_buffer[i] != check_for_pin_on[i]) {
-                pin_on = false;
+            uint8_t check_for_set_pin_val[13] = "<set_pinval>";
+            boolean set_pin_val = true;
+            for (int i = 0; i < 12; i++) {
+              if (uart_buffer[i] != check_for_set_pin_val[i]) {
+                set_pin_val = false;
                 break;
               }
             }
-            if (pin_on) {
-              int pin = (int)uart_buffer[8] - 48;
-              if ((int)uart_buffer[9] >= 48 && (int)uart_buffer[9] <= 57) {
-                pin = pin * 10 + ((int)uart_buffer[9] - 48);
+            if (set_pin_val) {
+              int pin = (int)uart_buffer[12] - 48;
+              if ((int)uart_buffer[13] >= 48 && (int)uart_buffer[13] <= 57) {
+                pin = pin * 10 + ((int)uart_buffer[13] - 48);
               }
-              uart_buffer[9] = 0;
+              int val = 0;
+              for (int i = 0; i < 3; i++) {
+                val = val * 10 + ((int)uart_buffer[14 + i] - 48);
+              }
+              for (int i = 0; i < 17; i++) {
+                uart_buffer[i] = 0;
+              }
+              pinMode(pin, OUTPUT); 
+              analogWrite(pin, val);
+              Serial.println("Set pin");
+              Serial.println(pin);
+              Serial.println("Set val");
+              Serial.println(val);
+            }
+            
+            uint8_t check_for_pin_high[11] = "<pin_high>";
+            boolean pin_high = true;
+            for (int i = 0; i < 10; i++) {
+              if (uart_buffer[i] != check_for_pin_high[i]) {
+                pin_high = false;
+                break;
+              }
+            }
+            if (pin_high) {
+              int pin = (int)uart_buffer[10] - 48;
+              if ((int)uart_buffer[11] >= 48 && (int)uart_buffer[11] <= 57) {
+                pin = pin * 10 + ((int)uart_buffer[11] - 48);
+              }
+              for (int i = 0; i < 14; i++) {
+                uart_buffer[i] = 0;
+              }
               pinMode(pin, OUTPUT);
               digitalWrite(pin, HIGH);
               Serial.println("Set pin high");
               Serial.println(pin);
             }
             
-            uint8_t check_for_pin_off[10] = "<pin_off>";
-            boolean pin_off = true;
+            uint8_t check_for_pin_low[10] = "<pin_low>";
+            boolean pin_low = true;
             for (int i = 0; i < 9; i++) {
-              if (uart_buffer[i] != check_for_pin_off[i]) {
-                pin_off = false;
+              if (uart_buffer[i] != check_for_pin_low[i]) {
+                pin_low = false;
                 break;
               }
             }
-            if (pin_off) {
+            if (pin_low) {
               int pin = (int)uart_buffer[9] - 48;
               if ((int)uart_buffer[10] >= 48 && (int)uart_buffer[10] <= 57) {
                 pin = pin * 10 + ((int)uart_buffer[10] - 48);
               }
-              uart_buffer[10] = 0;
+              for (int i = 0; i < 14; i++) {
+                uart_buffer[i] = 0;
+              }
               pinMode(pin, OUTPUT);
               digitalWrite(pin, LOW);
               Serial.println("Set pin low");
