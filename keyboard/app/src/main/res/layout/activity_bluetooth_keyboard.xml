@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <fragment
+    android:name="ubc.bluetoothcontroller.keyboard.BluetoothKeyboardFragment"
+    android:id="@+id/text_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout="@layout/fragment_bluetooth_keyboard"
+    android:layout_gravity="center_horizontal|top" />
+
+</LinearLayout>

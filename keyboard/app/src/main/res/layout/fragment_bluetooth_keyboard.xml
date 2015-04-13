@@ -1,0 +1,35 @@
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vg"    >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:hint="Type Text Here"
+            android:id="@+id/textView"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:id="@+id/ok_button"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:onClick="toast_message"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth Switch"
+            android:id="@+id/bluetooth_switch"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:onClick="switchBluetooth"/>
+
+    </GridLayout>
+
+
