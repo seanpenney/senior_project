@@ -3,6 +3,8 @@ package bluetoothcontroller.ubc;
 import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -90,13 +92,27 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     public void bluetoothKeyboard(View view) {
-        Intent intent = new Intent(this, KeyboardActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, KeyboardActivity.class);
+        //startActivity(intent);
+        if(isPackageExisted("ubc.bluetoothcontroller.keyboard")) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("ubc.bluetoothcontroller.keyboard");
+            startActivity(LaunchIntent);
+        }
     }
 
     public void bluetoothGamepad(View view) {
         Intent intent = new Intent(this, GamepadActivity.class);
         startActivity(intent);
+    }
+
+    public boolean isPackageExisted(String targetPackage){
+        PackageManager pm=getPackageManager();
+        try {
+            PackageInfo info=pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
