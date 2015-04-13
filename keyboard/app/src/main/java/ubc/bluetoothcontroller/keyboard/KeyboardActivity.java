@@ -1,9 +1,16 @@
 package ubc.bluetoothcontroller.keyboard;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 
 public class KeyboardActivity extends ActionBarActivity {
@@ -11,7 +18,7 @@ public class KeyboardActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_keyboard);
+        setContentView(R.layout.activity_bluetooth_keyboard);
     }
 
 
@@ -35,5 +42,51 @@ public class KeyboardActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void switchBluetooth(View view) {
+
+        Switch ble_switch = (Switch) findViewById(R.id.bluetooth_switch);
+        boolean on = ble_switch.isChecked();
+
+        if (on) {
+            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (mBluetoothAdapter == null) {
+                //bluetooth adapter is not available on this device
+                Context context = getApplicationContext();
+                CharSequence text = "Bluetooth is not detected on this device";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                int REQUEST_ENABLE_BT = 1;
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            }
+        } else {
+            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (mBluetoothAdapter == null) {
+                //bluetooth adapter is not available on this device
+                Context context = getApplicationContext();
+                CharSequence text = "Bluetooth is not detected on this device";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                mBluetoothAdapter.disable();
+            }
+        }
+    }
+
+
+
+    public void toast_message(View view){
+        Context context = getApplicationContext();
+        EditText mEdit   = (EditText)findViewById(R.id.textView);
+        CharSequence text = mEdit.getText().toString();
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
