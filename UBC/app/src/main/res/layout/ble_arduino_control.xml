@@ -159,13 +159,16 @@
                     android:hint="Enter pin # to read"
                     android:inputType="number"
                     android:textSize="18sp" />
-            </RelativeLayout>
 
-            <Button
-                android:id="@+id/get_pin_val_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Read value" />
+                <Button
+                    android:id="@+id/get_pin_val_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/get_pin_val"
+                    android:text="Read value" />
+            </RelativeLayout>
 
             <Space
                 android:layout_width="1dp"
@@ -213,13 +216,16 @@
                     android:hint="Enter value to write"
                     android:inputType="number"
                     android:textSize="18sp" />
-            </RelativeLayout>
 
-            <Button
-                android:id="@+id/set_pin_val_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Write value to pin" />
+                <Button
+                    android:id="@+id/set_pin_val_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/set_val"
+                    android:text="Write value to pin" />
+            </RelativeLayout>
 
             <Space
                 android:layout_width="1dp"
@@ -250,6 +256,8 @@
                     android:id="@+id/pin_high_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/pin_high"
                     android:text="Write high to digital pin" />
             </RelativeLayout>
@@ -279,8 +287,45 @@
                     android:id="@+id/pin_low_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/pin_low"
                     android:text="Write low to digital pin" />
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/timer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Setup timer:"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/timer_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/timer_text"
+                    android:hint="Enter seconds until event"
+                    android:inputType="number"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/timer_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/timer_value"
+                    android:text="Submit" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

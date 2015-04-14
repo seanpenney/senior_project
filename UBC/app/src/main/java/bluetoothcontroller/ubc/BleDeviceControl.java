@@ -175,6 +175,14 @@ public class BleDeviceControl extends Fragment {
             }
         });
 
+        Button setup_timer_button = (Button) view.findViewById(R.id.timer_button);
+        setup_timer_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupTimer();
+            }
+        });
+
         return view;
     }
 
@@ -311,6 +319,21 @@ public class BleDeviceControl extends Fragment {
             e.printStackTrace();
         }
         mBluetoothLeService.writeRXCharacteristic(value);
+    }
+
+    private void setupTimer() {
+        EditText timerInput = (EditText) getActivity().findViewById(R.id.timer_value);
+        int timerValue = Integer.parseInt(timerInput.getText().toString());
+
+        String message = "<timer>" + String.format("%03d", timerValue);
+        byte[] value = new byte[0];
+        try {
+            value = message.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeRXCharacteristic(value);
+        Toast.makeText(getActivity(), "Time set, now setup action to perform", Toast.LENGTH_LONG).show();
     }
 
 }

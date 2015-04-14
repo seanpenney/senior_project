@@ -64,6 +64,7 @@ The following instructions describe the steps to be made on the Windows PC:
 #include <lib_aci.h>
 #include <aci_setup.h>
 #include "uart_over_ble.h"
+#include "Timer.h"
 
 /**
 Put the nRF8001 setup in the RAM of the nRF8001.
@@ -118,7 +119,11 @@ static uart_over_ble_t uart_over_ble;
 static uint8_t         uart_buffer[20];
 static uint8_t         uart_buffer_len = 0;
 static uint8_t         dummychar = 0;
-
+Timer t;
+int timerPin;
+int timerCheck = 0;
+int timerTime;
+int timerVal;
 /*
 Initialize the radio_ack. This is the ack received for every transmitted packet.
 */
@@ -449,14 +454,15 @@ void aci_loop()
               for (int i = 0; i < 14; i++) {
                 uart_buffer[i] = 0;
               }
-              int val = analogRead(pin);
-              if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
-                char buffer[4];
-                sprintf(buffer, "%03i", val);
-                uart_tx((uint8_t *)buffer, sizeof(buffer)/sizeof(char));                
+              if (timerCheck == 1) {  
+                timerPin = pin;
+                int afterEvent = t.after(timerTime * 1000, getPinValTimer);
+                Serial.print("Event Id: ");
+                Serial.println(afterEvent);
+                timerCheck = 0;            
+              } else {
+                getPinVal(pin);
               }
-              Serial.println("Read pin val");
-              Serial.println(pin);
             }
             
             uint8_t check_for_set_pin_val[13] = "<set_pinval>";
@@ -479,12 +485,16 @@ void aci_loop()
               for (int i = 0; i < 17; i++) {
                 uart_buffer[i] = 0;
               }
-              pinMode(pin, OUTPUT); 
-              analogWrite(pin, val);
-              Serial.println("Set pin");
-              Serial.println(pin);
-              Serial.println("Set val");
-              Serial.println(val);
+              if (timerCheck == 1) {  
+                timerPin = pin;
+                timerVal = val;
+                int afterEvent = t.after(timerTime * 1000, setPinValTimer);
+                Serial.print("Event Id: ");
+                Serial.println(afterEvent);
+                timerCheck = 0;            
+              } else {
+                setPinVal(pin, val);
+              }
             }
             
             uint8_t check_for_pin_high[11] = "<pin_high>";
@@ -503,10 +513,15 @@ void aci_loop()
               for (int i = 0; i < 14; i++) {
                 uart_buffer[i] = 0;
               }
-              pinMode(pin, OUTPUT);
-              digitalWrite(pin, HIGH);
-              Serial.println("Set pin high");
-              Serial.println(pin);
+              if (timerCheck == 1) {  
+                timerPin = pin;
+                int afterEvent = t.after(timerTime * 1000, setPinHighTimer);
+                Serial.print("Event Id: ");
+                Serial.println(afterEvent);
+                timerCheck = 0;            
+              } else {
+                setPinHigh(pin);
+              }
             }
             
             uint8_t check_for_pin_low[10] = "<pin_low>";
@@ -525,10 +540,35 @@ void aci_loop()
               for (int i = 0; i < 14; i++) {
                 uart_buffer[i] = 0;
               }
-              pinMode(pin, OUTPUT);
-              digitalWrite(pin, LOW);
-              Serial.println("Set pin low");
-              Serial.println(pin);
+              if (timerCheck == 1) {  
+                timerPin = pin;
+                int afterEvent = t.after(timerTime * 1000, setPinLowTimer);
+                Serial.print("Event Id: ");
+                Serial.println(afterEvent);
+                timerCheck = 0;            
+              } else {
+                setPinLow(pin);
+              }
+            }
+            
+            uint8_t check_for_timer[8] = "<timer>";
+            boolean timer = true;
+            for (int i = 0; i < 7; i++) {
+              if (uart_buffer[i] != check_for_timer[i]) {
+                timer = false;
+                break;
+              }
+            }
+            if (timer) {
+              timerCheck = 1;
+              int time = 0;
+              for (int i = 0; i < 3; i++) {
+                time = time * 10 + ((int)uart_buffer[7 + i] - 48);
+              }
+              timerTime = time;
+              for (int i = 0; i < 14; i++) {
+                uart_buffer[i] = 0;
+              }         
             }
             
             if (lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX))
@@ -608,6 +648,79 @@ void aci_loop()
   }
 }
 
+void setPinLowTimer() {
+  int pin = timerPin;
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  Serial.println("Set pin low");
+  Serial.println(pin);
+}
+
+void setPinLow(int pin) {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  Serial.println("Set pin low");
+  Serial.println(pin);
+}
+
+void setPinHighTimer() {
+  int pin = timerPin;
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, HIGH);
+  Serial.println("Set pin high");
+  Serial.println(pin);
+}
+
+void setPinHigh(int pin) {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, HIGH);
+  Serial.println("Set pin high");
+  Serial.println(pin);
+}
+
+void setPinValTimer() {
+  int pin = timerPin;
+  int val = timerVal;
+  pinMode(pin, OUTPUT); 
+  analogWrite(pin, val);
+  Serial.println("Set pin");
+  Serial.println(pin);
+  Serial.println("Set val");
+  Serial.println(val);
+}
+
+void setPinVal(int pin, int val) {
+  pinMode(pin, OUTPUT); 
+  analogWrite(pin, val);
+  Serial.println("Set pin");
+  Serial.println(pin);
+  Serial.println("Set val");
+  Serial.println(val);
+}
+
+void getPinValTimer() {
+  int pin = timerPin;
+  int val = analogRead(pin);
+  if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
+    char buffer[4];
+    sprintf(buffer, "%03i", val);
+    uart_tx((uint8_t *)buffer, sizeof(buffer)/sizeof(char));                
+  }
+  Serial.println("Read pin val");
+  Serial.println(pin);
+}
+
+void getPinVal(int pin) {
+  int val = analogRead(pin);
+  if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
+    char buffer[4];
+    sprintf(buffer, "%03i", val);
+    uart_tx((uint8_t *)buffer, sizeof(buffer)/sizeof(char));                
+  }
+  Serial.println("Read pin val");
+  Serial.println(pin);
+}
+
 bool stringComplete = false;  // whether the string is complete
 uint8_t stringIndex = 0;      //Initialize the index to store incoming chars
 
@@ -615,7 +728,7 @@ void loop() {
 
   //Process any ACI commands or events
   aci_loop();
-
+  t.update();
   // print the string when a newline arrives:
   if (stringComplete) 
   {
