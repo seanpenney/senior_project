@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -175,6 +176,36 @@ public class BleDeviceControl extends Fragment {
             }
         });
 
+        Button setup_timer_button = (Button) view.findViewById(R.id.timer_button);
+        setup_timer_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupTimer();
+            }
+        });
+
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.set_val);
+        final TextView currentSetVal = (TextView) view.findViewById(R.id.current_set_val);
+        currentSetVal.setText(seekBar.getProgress() + "/" + seekBar.getMax());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                progress = progressValue;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                currentSetVal.setText(progress + "/" + seekBar.getMax());
+            }
+        });
+
         return view;
     }
 
@@ -272,10 +303,11 @@ public class BleDeviceControl extends Fragment {
         EditText pinInput = (EditText) getActivity().findViewById(R.id.set_pin);
         int pinNumber = Integer.parseInt(pinInput.getText().toString());
 
-        EditText valInput = (EditText) getActivity().findViewById(R.id.set_val);
-        int valNumber = Integer.parseInt(valInput.getText().toString());
+        SeekBar valInput = (SeekBar) getActivity().findViewById(R.id.set_val);
+        float valNumber = valInput.getProgress();
+        valNumber = valNumber * ((float)255/100);
 
-        String message = "<set_pinval>" + String.format("%02d", pinNumber) + String.format("%03d", valNumber);
+        String message = "<set_pinval>" + String.format("%02d", pinNumber) + String.format("%03d", (int)valNumber);
         byte[] value = new byte[0];
         try {
             value = message.getBytes("UTF-8");
@@ -311,6 +343,21 @@ public class BleDeviceControl extends Fragment {
             e.printStackTrace();
         }
         mBluetoothLeService.writeRXCharacteristic(value);
+    }
+
+    private void setupTimer() {
+        EditText timerInput = (EditText) getActivity().findViewById(R.id.timer_value);
+        int timerValue = Integer.parseInt(timerInput.getText().toString());
+
+        String message = "<timer>" + String.format("%03d", timerValue);
+        byte[] value = new byte[0];
+        try {
+            value = message.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeRXCharacteristic(value);
+        Toast.makeText(getActivity(), "Time set, now setup action to perform", Toast.LENGTH_LONG).show();
     }
 
 }
