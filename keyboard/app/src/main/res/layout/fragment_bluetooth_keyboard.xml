@@ -4,6 +4,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/vg"    >
 
+
+        <!-- Place the Widgets you want to use here -->
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
