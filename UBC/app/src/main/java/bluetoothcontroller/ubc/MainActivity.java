@@ -92,13 +92,23 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     public void bluetoothKeyboard(View view) {
-        //Intent intent = new Intent(this, KeyboardActivity.class);
-        //startActivity(intent);
         if(isPackageExisted("ubc.bluetoothcontroller.keyboard")) {
             Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("ubc.bluetoothcontroller.keyboard");
             startActivity(LaunchIntent);
         }
     }
+
+    //* TODO add new plugin intent here *//
+    /* Example
+          public void bluetooth{NEWPLUGIN}(View view) {
+        //Intent intent = new Intent(this, {NEWPLUGIN}Activity.class);
+        //startActivity(intent);
+        if(isPackageExisted("ubc.bluetoothcontroller.{NEWPLUGIN}")) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("ubc.bluetoothcontroller.{NEWPLUGIN}");
+            startActivity(LaunchIntent);
+        }
+    }
+     */
 
     public void bluetoothGamepad(View view) {
         Intent intent = new Intent(this, GamepadActivity.class);
@@ -229,6 +239,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                     } else if (text.equals(getString(R.string.ble))) {
                                         bluetoothLowEnergy(v);
                                     }
+                                    /* TODO add NEWPLUGIN HERE*/
                                 }
                             });
                             target.setOnLongClickListener(longListen);
