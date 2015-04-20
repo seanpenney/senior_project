@@ -2,6 +2,7 @@ package bluetoothcontroller.ubc;
 
 import android.app.ActionBar;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -44,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private String[] mPluginTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    String NOT_FOUND = " Not Found";
     private View selected_item = null;
     private int offset_x = 0;
     private int offset_y = 0;
@@ -92,23 +94,34 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
     public void bluetoothKeyboard(View view) {
-        if(isPackageExisted("ubc.bluetoothcontroller.keyboard")) {
-            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("ubc.bluetoothcontroller.keyboard");
+        String package_name = "ubc.bluetoothcontroller.keyboard";
+        if(isPackageExisted(package_name)) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(package_name);
             startActivity(LaunchIntent);
         }
+        else{
+
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), package_name + NOT_FOUND, duration);
+            toast.show();
+        }
+
     }
 
-    //* TODO add new plugin intent here *//
-    /* Example
-          public void bluetooth{NEWPLUGIN}(View view) {
-        //Intent intent = new Intent(this, {NEWPLUGIN}Activity.class);
-        //startActivity(intent);
-        if(isPackageExisted("ubc.bluetoothcontroller.{NEWPLUGIN}")) {
-            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("ubc.bluetoothcontroller.{NEWPLUGIN}");
+    /* TODO uncomment and change name accordingly */
+    public void pluginExample(View view) {
+        String package_name = "ubc.bluetoothcontroller.plugin_example";
+        if(isPackageExisted(package_name)) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(package_name);
             startActivity(LaunchIntent);
         }
+        else{
+
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), package_name + NOT_FOUND, duration);
+            toast.show();
+        }
     }
-     */
 
     public void bluetoothGamepad(View view) {
         Intent intent = new Intent(this, GamepadActivity.class);
@@ -239,7 +252,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                     } else if (text.equals(getString(R.string.ble))) {
                                         bluetoothLowEnergy(v);
                                     }
-                                    /* TODO add NEWPLUGIN HERE*/
+                                   /* TODO uncomment and change name accordingly*/
+                                    else if (text.equals(getString(R.string.example))) {
+                                        pluginExample(v);
+                                    }
                                 }
                             });
                             target.setOnLongClickListener(longListen);
