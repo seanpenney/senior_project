@@ -108,8 +108,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+
     /* TODO uncomment and change name accordingly */
-    public void pluginExample(View view) {
+    /*public void pluginExample(View view) {
         String package_name = "ubc.bluetoothcontroller.plugin_example";
         if(isPackageExisted(package_name)) {
             Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(package_name);
@@ -121,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             Toast toast = Toast.makeText(getApplicationContext(), package_name + NOT_FOUND, duration);
             toast.show();
         }
-    }
+    } */
 
     public void bluetoothGamepad(View view) {
         Intent intent = new Intent(this, GamepadActivity.class);
@@ -249,13 +250,13 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                         bluetoothKeyboard(v);
                                     } else if (text.equals(getString(R.string.bc_gamePad))) {
                                         bluetoothGamepad(v);
-                                    } else if (text.equals(getString(R.string.ble))) {
+                                    } else if (text.equals(getString(R.string.ble_arduino))) {
                                         bluetoothLowEnergy(v);
                                     }
-                                   /* TODO uncomment and change name accordingly*/
-                                    else if (text.equals(getString(R.string.example))) {
+                                   /* TODO uncomment and change name accordingly */
+                                   /*  else if (text.equals(getString(R.string.example))) {
                                         pluginExample(v);
-                                    }
+                                    } */
                                 }
                             });
                             target.setOnLongClickListener(longListen);
