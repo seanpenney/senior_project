@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class KeyboardActivity extends ActionBarActivity {
 
+    //Set the layout to activity_bluetooth_keyboard. Should probably rename activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,7 @@ public class KeyboardActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //The code for the Bluetooth Switch. Not strictly required for your plugin, but recommended.
     public void switchBluetooth(View view) {
 
         Switch ble_switch = (Switch) findViewById(R.id.bluetooth_switch);
@@ -78,8 +80,7 @@ public class KeyboardActivity extends ActionBarActivity {
         }
     }
 
-
-
+    // This prints the message that is typed in
     public void toast_message(View view){
         Context context = getApplicationContext();
         EditText mEdit   = (EditText)findViewById(R.id.textView);
