@@ -109,7 +109,21 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     }
 
 
-    /* TODO uncomment and change name accordingly */
+    public void garduinoBLE(View view) {
+        String package_name = "ubc.bluetoothcontroller.garduino";
+        if(isPackageExisted(package_name)) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(package_name);
+            startActivity(LaunchIntent);
+        }
+        else{
+
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), package_name + NOT_FOUND, duration);
+            toast.show();
+        }
+    }
+
+        /* TODO uncomment and change name accordingly */
     /*public void pluginExample(View view) {
         String package_name = "ubc.bluetoothcontroller.plugin_example";
         if(isPackageExisted(package_name)) {
@@ -252,6 +266,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                         bluetoothGamepad(v);
                                     } else if (text.equals(getString(R.string.ble_arduino))) {
                                         bluetoothLowEnergy(v);
+                                    }else if (text.equals(getString(R.string.ble_garduino))) {
+                                        garduinoBLE(v);
                                     }
                                    /* TODO uncomment and change name accordingly */
                                    /*  else if (text.equals(getString(R.string.example))) {

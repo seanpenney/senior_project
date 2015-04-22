@@ -17,7 +17,6 @@
     <string name="ble_arduino">Arduino BLE</string>
     <!-- TODO uncomment and change accordingly -->
     <!--<string name="example">Plugin Example</string> -->
-    <string name="ble_garduino">Garduino BLE</string>
     <string name="bc_keyboard">Bluetooth Classic Keyboard</string>
     <string name="bc_gamePad">Bluetooth Classic Gamepad</string>
     <string name="drawer_open">Open Navigation Drawer</string>
@@ -26,7 +25,6 @@
     <string-array name="plugins">
         <!-- TODO uncomment and change name accordingly -->
         <!--<item > @string/example</item> -->
-        <item > @string/ble_garduino</item>
         <item > @string/bc_gamePad</item>
         <item > @string/ble_arduino</item>
         <item > @string/bc_keyboard</item>
