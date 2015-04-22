@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        // TODO change application id to ubc.bluetoothcontroller.your_plugin"
+        // TODO change application id to ubc.bluetoothcontroller.{your_plugin}"
         applicationId "ubc.bluetoothcontroller.plugin_example"
         minSdkVersion 18
         targetSdkVersion 21

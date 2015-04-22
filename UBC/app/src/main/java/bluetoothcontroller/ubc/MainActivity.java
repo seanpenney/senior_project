@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -46,15 +47,16 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     String NOT_FOUND = " Not Found";
+    private String mActivityTitle;
     private View selected_item = null;
     private int offset_x = 0;
     private int offset_y = 0;
     private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     private ListView listView;
     private String[] plugins;
     private boolean rowHasTwo = false;
     private int tableRowCount = 1;
-    public ActionBarDrawerToggle mDrawerToggle;
     View dropView;
 
     @Override
@@ -62,10 +64,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.fragment_bluetooth_selector);
-
-
         mPluginTitles = getResources().getStringArray(R.array.plugins);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.container);
+        mActivityTitle = getTitle().toString();
         mDrawerList = (ListView) findViewById(R.id.drawerList);
         plugins = getResources().getStringArray(R.array.plugins);
         mDrawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, plugins));
@@ -73,8 +74,42 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         dropView =  findViewById(R.id.drop_view);
         dropView.setOnDragListener(DropListener);
         findViewById(R.id.delete_drop_view).setOnDragListener(DropListener);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setupDrawer();
+    }
+
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation!");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -157,7 +192,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         if (id == R.id.action_settings) {
             return true;
         }
-
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -180,7 +217,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
-    int randid = 21293;
     View.OnDragListener DropListener = new View.OnDragListener(){
 
             @Override
