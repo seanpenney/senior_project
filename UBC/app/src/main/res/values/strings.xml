@@ -22,14 +22,39 @@
     <string name="bc_gamePad">Bluetooth Classic Gamepad</string>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
+    <string name="pin_prompt">Choose a pin</string>
+
+    <string-array name="digital_pins">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+
+    <string-array name="analog_pins">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 
     <string-array name="plugins">
         <!-- TODO uncomment and change name accordingly -->
         <!--<item > @string/example</item> -->
-        <item > @string/ble_garduino</item>
-        <item > @string/bc_gamePad</item>
-        <item > @string/ble_arduino</item>
-        <item > @string/bc_keyboard</item>
+        <item> @string/ble_garduino</item>
+        <item> @string/bc_gamePad</item>
+        <item> @string/ble_arduino</item>
+        <item> @string/bc_keyboard</item>
     </string-array>
 
 </resources>

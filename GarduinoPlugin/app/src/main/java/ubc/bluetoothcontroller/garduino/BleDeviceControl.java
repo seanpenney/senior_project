@@ -1,8 +1,15 @@
 package ubc.bluetoothcontroller.garduino;
 
 import android.app.Fragment;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +18,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.widget.TextView;
-
 import java.io.UnsupportedEncodingException;
-import java.util.UUID;
 
 /**
  * Created by sean on 1/20/2015, using Android developer guide as reference
@@ -33,22 +32,15 @@ import java.util.UUID;
 public class BleDeviceControl extends Fragment {
     private final static String TAG = BleDeviceControl.class.getSimpleName();
 
-    public static final String EXTRAS_DEVICE_NAME = "NAME";
-    public static final String EXTRAS_DEVICE_ADDRESS = "ADDRESS";
-
-    public final static UUID UUID_RX_CHARACTERISTIC =
-            UUID.fromString(SampleGattAttributes.RX_CHARACTERISTIC);
-
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceName;
     private String mDeviceAddress;
     private BluetoothLeService mBluetoothLeService;
-    private boolean mConnected = false;
-    private BluetoothGattCharacteristic mNotifyCharacteristic;
-
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
+    Spinner pin_high_spinner;
+    Spinner pin_low_spinner;
+    Spinner set_pin_spinner;
+    Spinner get_val_spinner;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -81,10 +73,8 @@ public class BleDeviceControl extends Fragment {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                mConnected = true;
                 updateConnectionState(R.string.connected);
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
                 updateConnectionState(R.string.disconnected);
                 clearUI();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
@@ -97,7 +87,6 @@ public class BleDeviceControl extends Fragment {
 
     public void setupNotification() {
         BluetoothGattCharacteristic characteristic = mBluetoothLeService.returnTxCharacteristic();
-        mNotifyCharacteristic = characteristic;
         mBluetoothLeService.setCharacteristicNotification(characteristic, true);
 
     }
@@ -133,30 +122,11 @@ public class BleDeviceControl extends Fragment {
         mConnectionState = (TextView) view.findViewById(R.id.connection_state);
         mDataField = (TextView) view.findViewById(R.id.data_value);
 
-        /*
-        Button button = (Button) view.findViewById(R.id.submit_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Sent text to Arduino", Toast.LENGTH_SHORT).show();
-                sendToArduino();
-            }
-        });
-        */
-
         Button get_pin_val_button = (Button) view.findViewById(R.id.get_pin_val_button);
         get_pin_val_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPinVal();
-            }
-        });
-
-        Button set_pin_val_button = (Button) view.findViewById(R.id.set_pin_val_button);
-        set_pin_val_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setPinVal();
             }
         });
 
@@ -184,12 +154,18 @@ public class BleDeviceControl extends Fragment {
             }
         });
 
+        pin_high_spinner = (Spinner) view.findViewById(R.id.pin_high);
+        pin_low_spinner = (Spinner) view.findViewById(R.id.pin_low);
+        set_pin_spinner = (Spinner) view.findViewById(R.id.set_pin);
+        get_val_spinner = (Spinner) view.findViewById(R.id.get_pin_val);
+
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.set_val);
         final TextView currentSetVal = (TextView) view.findViewById(R.id.current_set_val);
         currentSetVal.setText(seekBar.getProgress() + "/" + seekBar.getMax());
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
@@ -203,6 +179,7 @@ public class BleDeviceControl extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 currentSetVal.setText(progress + "/" + seekBar.getMax());
+                setPinVal();
             }
         });
 
@@ -273,23 +250,11 @@ public class BleDeviceControl extends Fragment {
         }
     }
 
-    /*
-    private void sendToArduino() {
-        EditText input = (EditText) getActivity().findViewById(R.id.submit_text);
-        String message = input.getText().toString();
-        byte[] value = new byte[0];
-        try {
-            value = message.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        mBluetoothLeService.writeRXCharacteristic(value);
-    }
-    */
-
     private void getPinVal() {
-        EditText input = (EditText) getActivity().findViewById(R.id.get_pin_val);
-        String message = "<get_pinval>" + input.getText().toString();
+        String pinInput = get_val_spinner.getSelectedItem().toString();
+        int pinNumber = Integer.parseInt(pinInput);
+
+        String message = "<get_pinval>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];
         try {
             value = message.getBytes("UTF-8");
@@ -300,14 +265,14 @@ public class BleDeviceControl extends Fragment {
     }
 
     private void setPinVal() {
-        EditText pinInput = (EditText) getActivity().findViewById(R.id.set_pin);
-        int pinNumber = Integer.parseInt(pinInput.getText().toString());
+        String pinInput = set_pin_spinner.getSelectedItem().toString();
+        int pinNumber = Integer.parseInt(pinInput);
 
         SeekBar valInput = (SeekBar) getActivity().findViewById(R.id.set_val);
         float valNumber = valInput.getProgress();
-        valNumber = valNumber * ((float)255/100);
+        valNumber = valNumber * ((float) 255 / 100);
 
-        String message = "<set_pinval>" + String.format("%02d", pinNumber) + String.format("%03d", (int)valNumber);
+        String message = "<set_pinval>" + String.format("%02d", pinNumber) + String.format("%03d", (int) valNumber);
         byte[] value = new byte[0];
         try {
             value = message.getBytes("UTF-8");
@@ -318,8 +283,8 @@ public class BleDeviceControl extends Fragment {
     }
 
     private void setPinHigh() {
-        EditText pinInput = (EditText) getActivity().findViewById(R.id.pin_high);
-        int pinNumber = Integer.parseInt(pinInput.getText().toString());
+        String pinInput = pin_high_spinner.getSelectedItem().toString();
+        int pinNumber = Integer.parseInt(pinInput);
 
         String message = "<pin_high>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];
@@ -332,8 +297,8 @@ public class BleDeviceControl extends Fragment {
     }
 
     private void setPinLow() {
-        EditText pinInput = (EditText) getActivity().findViewById(R.id.pin_low);
-        int pinNumber = Integer.parseInt(pinInput.getText().toString());
+        String pinInput = pin_low_spinner.getSelectedItem().toString();
+        int pinNumber = Integer.parseInt(pinInput);
 
         String message = "<pin_low>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];

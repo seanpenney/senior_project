@@ -1,6 +1,5 @@
 package bluetoothcontroller.ubc;
 
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -17,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,14 +26,13 @@ import java.util.Hashtable;
  */
 public class BluetoothLowEnergyFragment extends ListFragment implements AdapterView.OnItemClickListener {
     private BluetoothAdapter mBluetoothAdapter;
-    private boolean mScanning;
     private Handler mHandler;
     Hashtable<String, BluetoothDevice> devices = new Hashtable<String, BluetoothDevice>();
     ArrayList<String> listItems = new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
-    // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000;
+    // Stops scanning after 5 seconds.
+    private static final long SCAN_PERIOD = 5000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +112,7 @@ public class BluetoothLowEnergyFragment extends ListFragment implements AdapterV
     }
 
     public void connectTo(BluetoothDevice device) {
+        scanLeDevice(false);
         String name = device.getName();
         String address = device.getAddress();
 
@@ -135,15 +132,12 @@ public class BluetoothLowEnergyFragment extends ListFragment implements AdapterV
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mScanning = false;
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                 }
             }, SCAN_PERIOD);
 
-            mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
-            mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }

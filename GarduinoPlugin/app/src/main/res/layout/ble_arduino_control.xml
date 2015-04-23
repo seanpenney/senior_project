@@ -139,28 +139,25 @@
 
                 <TextView
                     android:id="@+id/get_pin_val_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Read from pin:"
                     android:textSize="25sp" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/get_pin_val"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_toRightOf="@+id/get_pin_val_text"
-                    android:hint="Enter pin # to read"
-                    android:inputType="number"
-                    android:textSize="18sp" />
+                    android:entries="@array/analog_pins"
+                    android:prompt="@string/pin_prompt" />
 
                 <Button
                     android:id="@+id/get_pin_val_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/get_pin_val"
                     android:text="Read value" />
             </RelativeLayout>
 
@@ -174,20 +171,19 @@
 
                 <TextView
                     android:id="@+id/set_pin_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
-                    android:text="Write to pin:"
+                    android:text="Write value to pin:"
                     android:textSize="25sp" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/set_pin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_toRightOf="@+id/set_pin_text"
-                    android:hint="Enter pin # to write to"
-                    android:inputType="number"
-                    android:textSize="18sp" />
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -204,8 +200,9 @@
 
                 <SeekBar
                     android:id="@+id/set_val"
-                    android:layout_width="200dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/set_val_text"
                     android:max="100" />
 
@@ -213,19 +210,11 @@
                     android:id="@+id/current_set_val"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/set_val"
                     android:text="val"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp" />
 
-                <Button
-                    android:id="@+id/set_pin_val_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/current_set_val"
-                    android:text="Write value" />
             </RelativeLayout>
 
             <Space
@@ -238,28 +227,25 @@
 
                 <TextView
                     android:id="@+id/pin_high_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Write high to pin:"
                     android:textSize="25sp" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/pin_high"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_toRightOf="@+id/pin_high_text"
-                    android:hint="Enter pin #"
-                    android:inputType="number"
-                    android:textSize="18sp" />
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
 
                 <Button
                     android:id="@+id/pin_high_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/pin_high"
                     android:text="Write high to digital pin" />
             </RelativeLayout>
 
@@ -269,28 +255,25 @@
 
                 <TextView
                     android:id="@+id/pin_low_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Write low to pin:"
                     android:textSize="25sp" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/pin_low"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_toRightOf="@+id/pin_low_text"
-                    android:hint="Enter pin #"
-                    android:inputType="number"
-                    android:textSize="18sp" />
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
 
                 <Button
                     android:id="@+id/pin_low_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/pin_low"
                     android:text="Write low to digital pin" />
             </RelativeLayout>
 
@@ -324,8 +307,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/timer_value"
                     android:text="Submit" />
             </RelativeLayout>
         </LinearLayout>
