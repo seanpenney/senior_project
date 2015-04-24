@@ -312,7 +312,13 @@ public class BleDeviceControl extends Fragment {
 
     private void setupTimer() {
         EditText timerInput = (EditText) getActivity().findViewById(R.id.timer_value);
-        int timerValue = Integer.parseInt(timerInput.getText().toString());
+        int timerValue = 0;
+        try {
+            timerValue = Integer.parseInt(timerInput.getText().toString());
+        } catch (NumberFormatException e){
+            Toast.makeText(getActivity(), "Time not valid", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         String message = "<timer>" + String.format("%03d", timerValue);
         byte[] value = new byte[0];
