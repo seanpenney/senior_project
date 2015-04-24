@@ -148,6 +148,13 @@ public class BleDeviceControl extends Fragment {
             }
         });
 
+        Button disconnect_button = (Button) view.findViewById(R.id.disconnect_button);
+        disconnect_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disconnect();
+            }
+        });
 
         return view;
     }
@@ -260,7 +267,7 @@ public class BleDeviceControl extends Fragment {
         int timerValue = 0;
         try {
             timerValue = Integer.parseInt(timerInput.getText().toString());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             Toast.makeText(getActivity(), "Time not valid", Toast.LENGTH_LONG).show();
             return;
         }
@@ -276,4 +283,7 @@ public class BleDeviceControl extends Fragment {
         Toast.makeText(getActivity(), "Time set, now setup action to perform", Toast.LENGTH_LONG).show();
     }
 
+    private void disconnect() {
+        mBluetoothLeService.disconnect();
+    }
 }

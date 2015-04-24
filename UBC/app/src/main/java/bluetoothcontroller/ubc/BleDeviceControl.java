@@ -154,6 +154,14 @@ public class BleDeviceControl extends Fragment {
             }
         });
 
+        Button disconnect_button = (Button) view.findViewById(R.id.disconnect_button);
+        disconnect_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disconnect();
+            }
+        });
+
         pin_high_spinner = (Spinner) view.findViewById(R.id.pin_high);
         pin_low_spinner = (Spinner) view.findViewById(R.id.pin_low);
         set_pin_spinner = (Spinner) view.findViewById(R.id.set_pin);
@@ -329,6 +337,10 @@ public class BleDeviceControl extends Fragment {
         }
         mBluetoothLeService.writeRXCharacteristic(value);
         Toast.makeText(getActivity(), "Time set, now setup action to perform", Toast.LENGTH_LONG).show();
+    }
+
+    private void disconnect() {
+        mBluetoothLeService.disconnect();
     }
 
 }
