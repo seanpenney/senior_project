@@ -1,4 +1,4 @@
-package bluetoothcontroller.ubc;
+package ubc.bluetoothcontroller.garduino;
 
 import java.util.HashMap;
 

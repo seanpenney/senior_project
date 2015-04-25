@@ -1,4 +1,4 @@
-package bluetoothcontroller.ubc;
+package ubc.bluetoothcontroller.garduino;
 
 import android.app.Fragment;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,14 +31,10 @@ public class BleDeviceControl extends Fragment {
     private final static String TAG = BleDeviceControl.class.getSimpleName();
 
     private TextView mConnectionState;
-    private TextView mDataField;
+    private TextView moistureVal;
     private String mDeviceName;
     private String mDeviceAddress;
     private BluetoothLeService mBluetoothLeService;
-    Spinner pin_high_spinner;
-    Spinner pin_low_spinner;
-    Spinner set_pin_spinner;
-    Spinner get_val_spinner;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -92,7 +86,7 @@ public class BleDeviceControl extends Fragment {
     }
 
     private void clearUI() {
-        mDataField.setText(R.string.no_data);
+        moistureVal.setText(R.string.no_data);
     }
 
     @Override
@@ -120,26 +114,26 @@ public class BleDeviceControl extends Fragment {
         ((TextView) view.findViewById(R.id.device_address)).setText(mDeviceAddress);
         ((TextView) view.findViewById(R.id.device_name)).setText(mDeviceName);
         mConnectionState = (TextView) view.findViewById(R.id.connection_state);
-        mDataField = (TextView) view.findViewById(R.id.data_value);
+        moistureVal = (TextView) view.findViewById(R.id.moisture_value_reading);
 
-        Button get_pin_val_button = (Button) view.findViewById(R.id.get_pin_val_button);
-        get_pin_val_button.setOnClickListener(new View.OnClickListener() {
+        Button moisture_value_button = (Button) view.findViewById(R.id.moisture_value_button);
+        moisture_value_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPinVal();
             }
         });
 
-        Button set_pin_high_button = (Button) view.findViewById(R.id.pin_high_button);
-        set_pin_high_button.setOnClickListener(new View.OnClickListener() {
+        Button pump_on_button = (Button) view.findViewById(R.id.pump_on_button);
+        pump_on_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPinHigh();
             }
         });
 
-        Button set_pin_low_button = (Button) view.findViewById(R.id.pin_low_button);
-        set_pin_low_button.setOnClickListener(new View.OnClickListener() {
+        Button pump_off_button = (Button) view.findViewById(R.id.pump_off_button);
+        pump_off_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPinLow();
@@ -159,35 +153,6 @@ public class BleDeviceControl extends Fragment {
             @Override
             public void onClick(View v) {
                 disconnect();
-            }
-        });
-
-        pin_high_spinner = (Spinner) view.findViewById(R.id.pin_high);
-        pin_low_spinner = (Spinner) view.findViewById(R.id.pin_low);
-        set_pin_spinner = (Spinner) view.findViewById(R.id.set_pin);
-        get_val_spinner = (Spinner) view.findViewById(R.id.get_pin_val);
-
-        SeekBar seekBar = (SeekBar) view.findViewById(R.id.set_val);
-        final TextView currentSetVal = (TextView) view.findViewById(R.id.current_set_val);
-        currentSetVal.setText(seekBar.getProgress() + "/" + seekBar.getMax());
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                progress = progressValue;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                currentSetVal.setText(progress + "/" + seekBar.getMax());
-                setPinVal();
             }
         });
 
@@ -254,13 +219,12 @@ public class BleDeviceControl extends Fragment {
 
     private void displayData(String data) {
         if (data != null) {
-            mDataField.setText(data);
+            moistureVal.setText(data);
         }
     }
 
     private void getPinVal() {
-        String pinInput = get_val_spinner.getSelectedItem().toString();
-        int pinNumber = Integer.parseInt(pinInput);
+        int pinNumber = 0; // pin value for moisture sensor
 
         String message = "<get_pinval>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];
@@ -272,27 +236,8 @@ public class BleDeviceControl extends Fragment {
         mBluetoothLeService.writeRXCharacteristic(value);
     }
 
-    private void setPinVal() {
-        String pinInput = set_pin_spinner.getSelectedItem().toString();
-        int pinNumber = Integer.parseInt(pinInput);
-
-        SeekBar valInput = (SeekBar) getActivity().findViewById(R.id.set_val);
-        float valNumber = valInput.getProgress();
-        valNumber = valNumber * ((float) 255 / 100);
-
-        String message = "<set_pinval>" + String.format("%02d", pinNumber) + String.format("%03d", (int) valNumber);
-        byte[] value = new byte[0];
-        try {
-            value = message.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        mBluetoothLeService.writeRXCharacteristic(value);
-    }
-
     private void setPinHigh() {
-        String pinInput = pin_high_spinner.getSelectedItem().toString();
-        int pinNumber = Integer.parseInt(pinInput);
+        int pinNumber = 2; // pin value for pump
 
         String message = "<pin_high>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];
@@ -305,8 +250,7 @@ public class BleDeviceControl extends Fragment {
     }
 
     private void setPinLow() {
-        String pinInput = pin_low_spinner.getSelectedItem().toString();
-        int pinNumber = Integer.parseInt(pinInput);
+        int pinNumber = 2; // pin value for pump
 
         String message = "<pin_low>" + String.format("%02d", pinNumber);
         byte[] value = new byte[0];
@@ -323,7 +267,7 @@ public class BleDeviceControl extends Fragment {
         int timerValue = 0;
         try {
             timerValue = Integer.parseInt(timerInput.getText().toString());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             Toast.makeText(getActivity(), "Time not valid", Toast.LENGTH_LONG).show();
             return;
         }
@@ -342,5 +286,4 @@ public class BleDeviceControl extends Fragment {
     private void disconnect() {
         mBluetoothLeService.disconnect();
     }
-
 }
