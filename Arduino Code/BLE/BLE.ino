@@ -702,8 +702,8 @@ void getPinValTimer() {
   int pin = timerPin;
   int val = analogRead(pin);
   if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
-    char buffer[4];
-    sprintf(buffer, "%03i", val);
+    char buffer[5];
+    sprintf(buffer, "%04i", val);
     uart_tx((uint8_t *)buffer, sizeof(buffer)/sizeof(char));                
   }
   Serial.println("Read pin val");
@@ -712,10 +712,13 @@ void getPinValTimer() {
 
 void getPinVal(int pin) {
   int val = analogRead(pin);
+  Serial.println(val);
   if(lib_aci_is_pipe_available(&aci_state, PIPE_UART_OVER_BTLE_UART_TX_TX)) {
-    char buffer[4];
-    sprintf(buffer, "%03i", val);
+    char buffer[5];
+    sprintf(buffer, "%04i", val);
     uart_tx((uint8_t *)buffer, sizeof(buffer)/sizeof(char));                
+  } else {
+    Serial.println("Read Failed");
   }
   Serial.println("Read pin val");
   Serial.println(pin);
