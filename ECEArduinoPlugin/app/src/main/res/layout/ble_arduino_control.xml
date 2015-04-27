@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_device_name"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_device_address"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/device_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_state"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/connection_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnected"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_data"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/data_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/disconnect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Disconnect" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">>
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/get_pin_val_text"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Read from pin:"
+                    android:textSize="25sp" />
+
+                <Spinner
+                    android:id="@+id/get_pin_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/get_pin_val_text"
+                    android:entries="@array/analog_pins"
+                    android:prompt="@string/pin_prompt" />
+
+                <Button
+                    android:id="@+id/get_pin_val_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Read value" />
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/set_pin_text"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Write value to pin:"
+                    android:textSize="25sp" />
+
+                <Spinner
+                    android:id="@+id/set_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/set_pin_text"
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/set_val_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Value:"
+                    android:textSize="25sp" />
+
+                <SeekBar
+                    android:id="@+id/set_val"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/set_val_text"
+                    android:max="100" />
+
+                <TextView
+                    android:id="@+id/current_set_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/set_val"
+                    android:text="val"
+                    android:textSize="25sp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/pin_high_text"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Write high to pin:"
+                    android:textSize="25sp" />
+
+                <Spinner
+                    android:id="@+id/pin_high"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/pin_high_text"
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
+
+                <Button
+                    android:id="@+id/pin_high_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Write high to digital pin" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/pin_low_text"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Write low to pin:"
+                    android:textSize="25sp" />
+
+                <Spinner
+                    android:id="@+id/pin_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/pin_low_text"
+                    android:entries="@array/digital_pins"
+                    android:prompt="@string/pin_prompt" />
+
+                <Button
+                    android:id="@+id/pin_low_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Write low to digital pin" />
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="1dp"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/timer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:text="Setup timer:"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/timer_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/timer_text"
+                    android:hint="Enter seconds until event"
+                    android:inputType="number"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/timer_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Submit" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

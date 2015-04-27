@@ -80,9 +80,15 @@ public class BleDeviceControl extends Fragment {
     };
 
     public void setupNotification() {
-        BluetoothGattCharacteristic characteristic = mBluetoothLeService.returnTxCharacteristic();
+        BluetoothGattCharacteristic characteristic;
+        try {
+            characteristic = mBluetoothLeService.returnTxCharacteristic();
+        } catch (NullPointerException e) {
+            Toast.makeText(getActivity(), "Incorrect UUIDs on device", Toast.LENGTH_LONG).show();
+            disconnect();
+            return;
+        }
         mBluetoothLeService.setCharacteristicNotification(characteristic, true);
-
     }
 
     private void clearUI() {

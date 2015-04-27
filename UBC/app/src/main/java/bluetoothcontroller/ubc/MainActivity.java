@@ -156,6 +156,20 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         }
     }
 
+    public void eceBoardBLE(View view) {
+        String package_name = "ubc.bluetoothcontroller.ecearduinoplugin";
+        if(isPackageExisted(package_name)) {
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(package_name);
+            startActivity(LaunchIntent);
+        }
+        else{
+
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), package_name + NOT_FOUND, duration);
+            toast.show();
+        }
+    }
+
         /* TODO uncomment and change name accordingly */
     /*public void pluginExample(View view) {
         String package_name = "ubc.bluetoothcontroller.plugin_example";
@@ -302,6 +316,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                                         bluetoothLowEnergy(v);
                                     }else if (text.equals(getString(R.string.ble_garduino))) {
                                         garduinoBLE(v);
+                                    }else if (text.equals(getString(R.string.ble_ece))) {
+                                        eceBoardBLE(v);
                                     }
                                    /* TODO uncomment and change name accordingly */
                                    /*  else if (text.equals(getString(R.string.example))) {
