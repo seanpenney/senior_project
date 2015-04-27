@@ -1,4 +1,4 @@
-package bluetoothcontroller.ubc;
+package ubc.bluetoothcontroller.ecearduinoplugin;
 
 import android.app.Fragment;
 import android.bluetooth.BluetoothGattCharacteristic;
