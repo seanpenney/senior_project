@@ -144,14 +144,14 @@
 
                 <Button
                     android:id="@+id/pump_on_button"
-                    android:layout_width="150dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Turn pump on" />
 
                 <Button
                     android:id="@+id/pump_off_button"
-                    android:layout_width="150dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="Turn pump off" />
@@ -178,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/timer_text"
-                    android:hint="Enter seconds"
+                    android:hint="Enter seconds until event"
                     android:inputType="number"
                     android:textSize="18sp" />
 

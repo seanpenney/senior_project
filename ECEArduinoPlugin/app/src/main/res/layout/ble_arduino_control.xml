@@ -120,7 +120,7 @@
 
             <Space
                 android:layout_width="1dp"
-                android:layout_height="30dp" />
+                android:layout_height="15dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
 
                 <TextView
                     android:id="@+id/get_pin_val_text"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Read from pin:"
@@ -144,7 +144,7 @@
 
                 <Button
                     android:id="@+id/get_pin_val_button"
-                    android:layout_width="250dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="Read value" />
@@ -152,7 +152,7 @@
 
             <Space
                 android:layout_width="1dp"
-                android:layout_height="30dp" />
+                android:layout_height="15dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -160,7 +160,7 @@
 
                 <TextView
                     android:id="@+id/set_pin_text"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Write value to pin:"
@@ -189,7 +189,7 @@
 
                 <SeekBar
                     android:id="@+id/set_val"
-                    android:layout_width="250dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/set_val_text"
@@ -208,7 +208,7 @@
 
             <Space
                 android:layout_width="1dp"
-                android:layout_height="30dp" />
+                android:layout_height="15dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -216,7 +216,7 @@
 
                 <TextView
                     android:id="@+id/pin_high_text"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Write high to pin:"
@@ -232,10 +232,10 @@
 
                 <Button
                     android:id="@+id/pin_high_button"
-                    android:layout_width="250dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Write high to digital pin" />
+                    android:text="Write high" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -244,7 +244,7 @@
 
                 <TextView
                     android:id="@+id/pin_low_text"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:text="Write low to pin:"
@@ -260,15 +260,15 @@
 
                 <Button
                     android:id="@+id/pin_low_button"
-                    android:layout_width="250dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Write low to digital pin" />
+                    android:text="Write low" />
             </RelativeLayout>
 
             <Space
                 android:layout_width="1dp"
-                android:layout_height="30dp" />
+                android:layout_height="15dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -287,7 +287,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/timer_text"
-                    android:hint="Enter seconds until event"
+                    android:hint="Enter seconds"
                     android:inputType="number"
                     android:textSize="18sp" />
 
@@ -297,6 +297,29 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="Submit" />
+            </RelativeLayout>
+			
+			<Space
+                android:layout_width="1dp"
+                android:layout_height="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/submit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter text to send"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Send text" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

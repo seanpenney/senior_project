@@ -128,6 +128,14 @@ public class BleDeviceControl extends Fragment {
         mConnectionState = (TextView) view.findViewById(R.id.connection_state);
         mDataField = (TextView) view.findViewById(R.id.data_value);
 
+		Button sendText = (Button) view.findViewById(R.id.submit_button);
+        sendText.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                sendToArduino();
+            }
+        });
+		
         Button get_pin_val_button = (Button) view.findViewById(R.id.get_pin_val_button);
         get_pin_val_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,7 +271,19 @@ public class BleDeviceControl extends Fragment {
             mDataField.setText(data);
         }
     }
-
+	
+	private void sendToArduino() {
+		EditText input = (EditText) getActivity().findViewById(R.id.submit_text);
+		String message = input.getText().toString();
+		byte[] value = new byte[0];
+		try {
+			value = message.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		mBluetoothLeService.writeRXCharacteristic(value);
+    }
+	
     private void getPinVal() {
         String pinInput = get_val_spinner.getSelectedItem().toString();
         int pinNumber = Integer.parseInt(pinInput);
