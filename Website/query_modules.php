@@ -1,12 +1,12 @@
 <?php
-
 ini_set('display_errors', 'On');
 include('common.inc.php');
+header("Content-Type: application/json", true);
 
 $module_name = array_key_exists("name", $_REQUEST) ? $_REQUEST["name"] : 0;
 
-if (!preg_match('/^.[a-zA-z0-9]+.$/', $module_name))
-	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+if (!preg_match('/^.[a-zA-z0-9 ]+.$/', $module_name))
+	die(json_encode(array('message' => 'Problem with name')));
 
 $list = array();
 if ($result = $mysqli->query("select * from modules where name = " . "'" . $module_name . "'")) {
@@ -20,14 +20,14 @@ if ($result = $mysqli->query("select * from modules where name = " . "'" . $modu
 			"tag" => $obj->tag,
 			"rating" => number_format((float)$new_obj->rating_average, 2, '.', '')
 		);
+		$new_result->close();
 		array_push($list, $item);
 	}
 	$result->close();
 }
 
-header("Content-Type: application/json", true);
 if (empty($list)) {
-	die(json_encode(array('message' => 'ERROR', 'code' => 1337)));
+	die(json_encode(array('message' => 'ERROR')));
 }
 else {
 	echo json_encode($list);
